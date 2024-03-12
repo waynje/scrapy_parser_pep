@@ -2,7 +2,7 @@ from collections import defaultdict
 import csv
 from datetime import datetime
 
-from .constants import BASE_DIR, RESULTS
+from .settings import BASE_DIR, RESULTS
 
 
 class PepParsePipeline:
