@@ -2,7 +2,9 @@ from collections import defaultdict
 import csv
 from datetime import datetime
 
-from .constants import RESULTS_DIR, BASE_DIR
+from .constants import BASE_DIR
+
+RESULTS_DIR = BASE_DIR / 'results'
 
 
 class PepParsePipeline:
