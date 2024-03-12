@@ -1,9 +1,8 @@
 from collections import defaultdict
 import csv
 from datetime import datetime
-from pathlib import Path
 
-BASE_DIR = Path(__file__).parent.parent
+from .constants import RESULTS_DIR, BASE_DIR
 
 
 class PepParsePipeline:
@@ -11,8 +10,9 @@ class PepParsePipeline:
     def open_spider(self, spider):
         """Создаем словарь для статусов."""
         self.counter = defaultdict(int)
-        self.results_dir = BASE_DIR / 'results'
-        self.results_dir.mkdir(exist_ok=True)
+        if not hasattr(self, 'folder_created'):
+            RESULTS_DIR.mkdir(exist_ok=True)
+            self.folder_created = True
 
     def process_item(self, item, spider):
         """По ключу ищем нужное значение и добавляем к счетчику 1."""
@@ -22,18 +22,16 @@ class PepParsePipeline:
     def close_spider(self, spider):
         """Получаем время, записываем в файл, получаем общее колво статусов."""
         time = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        path = self.results_dir / f'status_summary_{time}.csv'
-        # total = sum(self.counter.values())
+        path = RESULTS_DIR / f'status_summary_{time}.csv'
         with open(path, mode="w", encoding="utf-8") as file:
             writer = csv.writer(
                 file,
-                dialect="unix",
-                delimiter=";"
+                quoting=csv.QUOTE_NONE
             )
             writer.writerows(
                 (
                     ("Статус", "Количество"),
                     *self.counter.items(),
-                    ("Total", sum(self.counter.values()))
+                    ("Всего", sum(self.counter.values()))
                 )
             )
