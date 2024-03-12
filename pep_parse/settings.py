@@ -3,7 +3,6 @@ from .constants import RESULTS_PEP
 BOT_NAME = 'pep_parse'
 
 SPIDER_MODULES = ['pep_parse.spiders']
-NEWSPIDER_MODULE = SPIDER_MODULES
 ROBOTSTXT_OBEY = True
 
 FEEDS = {RESULTS_PEP: {
