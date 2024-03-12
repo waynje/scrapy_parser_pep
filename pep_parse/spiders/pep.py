@@ -7,7 +7,7 @@ class PepSpider(scrapy.Spider):
 
     name = 'pep'
     allowed_domains = ['peps.python.org']
-    start_urls = ['http://peps.python.org/']
+    start_urls = ['https://peps.python.org/']
 
     def parse(self, response):
         """Получаем все ссылки и переходим по ним в методе parse_pep."""
@@ -19,6 +19,7 @@ class PepSpider(scrapy.Spider):
             )
 
     def parse_pep(self, response):
+        """Обрабатываем данные из страницы PEP."""
         title_text = response.css('h1.page-title::text').get().split()
         data = {
             'number': title_text[1],
